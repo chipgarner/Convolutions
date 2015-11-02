@@ -1,2 +1,8 @@
 *.pyc
 tmp.prototxt
+frames/
+bSue/
+diana/
+*.JPG
+*.jpg
+!youandme.jpg

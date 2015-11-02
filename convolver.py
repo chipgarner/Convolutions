@@ -3,6 +3,7 @@ from cStringIO import StringIO
 import numpy as np
 import scipy.ndimage as nd
 import PIL.Image
+#import cv2
 #from IPython.display import clear_output, Image, display
 from google.protobuf import text_format
 
@@ -35,13 +36,6 @@ def load_model():
 def load_image(image_relative_path):
     img = np.float32(PIL.Image.open(image_relative_path))
     return img
-
-#actually now save array
-def showarray(a, fmt='jpeg'):
-    a = np.uint8(np.clip(a, 0, 255))
-    f = "frames/saved.jpg"
-    PIL.Image.fromarray(a).save(f, fmt)
-    #display(Image(data=f.getvalue()))
 
 # a couple of utility functions for converting to and from Caffe's input image layout
 def preprocess(net, img):
@@ -80,11 +74,21 @@ def deepdream(net, base_img, iter_n=10, end='inception_4e/output', **step_params
             
         # visualization
         vis = deprocess(net, source.data[0])
-        # adjust image contrast
-        vis = vis*(255.0/np.percentile(vis, 99.98))
-        showarray(vis)
-        print i, end, vis.shape
-            
+        # adjust image contrast and clip
+        vis = vis*(255.0/np.percentile(vis, 99.98))     
+        vis = np.uint8(np.clip(vis, 0, 255))
+
+        pimg = PIL.Image.fromarray(vis)
+       
+        f = "frames/frame" + str(i) + end.replace('/', '-') + ".jpg"
+        pimg.save(f, 'jpeg')
+        print f
+        
+    pimg.show()
+   # cv2.namedWindow("test", cv2.WND_PROP_FULLSCREEN)          
+   # cv2.setWindowProperty("test", cv2.WND_PROP_FULLSCREEN, cv2.cv.CV_WINDOW_FULLSCREEN)
+   # cv2.imshow("test",pimg)
+
     # returning the resulting image
     #return deprocess(net, source.data[0])
 	####################################
