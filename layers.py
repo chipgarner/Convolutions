@@ -1,8 +1,9 @@
+#This overwrites everything in the frames directory, rename it if you want to save the images.
 import convolver as co
 
 co.use_gpu()
 net = co.load_model()
-img = co.load_image('BigSue53.jpg')
+img = co.load_image('dianaFits.jpg')
 
 ending = 'conv2/3x3_reduce'
 co.deepdream(net, img, iter_n = 30, end = ending)
@@ -14,7 +15,7 @@ ending = 'conv2/norm2'
 co.deepdream(net, img, iter_n = 30, end = ending)
 
 
-for i in range(3, 5):
+for i in range(3, 6):
 	ending = 'inception_' + str(i) + 'a/1x1'
 	co.deepdream(net, img, iter_n = 30, end = ending)
 	ending = 'inception_' + str(i) + 'a/3x3_reduce'
