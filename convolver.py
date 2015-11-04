@@ -42,6 +42,27 @@ def preprocess(net, img):
     return np.float32(np.rollaxis(img, 2)[::-1]) - net.transformer.mean['data']
 def deprocess(net, img):
     return np.dstack((img + net.transformer.mean['data'])[::-1])
+    
+def saveResult(net, index, end, vis):
+    # adjust image contrast and clip
+    vis = vis*(255.0/np.percentile(vis, 99.98))     
+    vis = np.uint8(np.clip(vis, 0, 255))
+
+    pimg = PIL.Image.fromarray(vis)
+       
+    f = "frames/frame" + str(index) + end.replace('/', '-') + ".jpg"
+    pimg.save(f, 'jpeg')
+    print f
+     
+def showResult(net, vis):
+    # adjust image contrast and clip
+    vis = vis*(255.0/np.percentile(vis, 99.98))     
+    vis = np.uint8(np.clip(vis, 0, 255))
+
+    pimg = PIL.Image.fromarray(vis)
+       
+    pimg.show()
+
 	
 ###########
 def objective_L2(dst):
@@ -74,17 +95,9 @@ def deepdream(net, base_img, iter_n=10, end='inception_4e/output', **step_params
             
         # visualization
         vis = deprocess(net, source.data[0])
-        # adjust image contrast and clip
-        vis = vis*(255.0/np.percentile(vis, 99.98))     
-        vis = np.uint8(np.clip(vis, 0, 255))
-
-        pimg = PIL.Image.fromarray(vis)
-       
-        f = "frames/frame" + str(i) + end.replace('/', '-') + ".jpg"
-        pimg.save(f, 'jpeg')
-        print f
+        saveResult(net, i, end, vis)
         
-    pimg.show()
+    showResult(net, vis)
    # cv2.namedWindow("test", cv2.WND_PROP_FULLSCREEN)          
    # cv2.setWindowProperty("test", cv2.WND_PROP_FULLSCREEN, cv2.cv.CV_WINDOW_FULLSCREEN)
    # cv2.imshow("test",pimg)
