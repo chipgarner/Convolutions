@@ -3,7 +3,6 @@ import PIL.Image
 import numpy as np
 import scipy.ndimage as nd
 import cv2
-from google.protobuf import text_format
 import caffe
 
 
@@ -52,14 +51,14 @@ def saveResult(net, index, end, vis):
     print f
 
 
-def showResult(net, vis):
+def showResult(vis):
     # adjust image contrast and clip
 
     vis = vis * (255.0 / np.percentile(vis, 99.98))
     vis = np.uint8(np.clip(vis, 0, 255))
 
     # pimg = PIL.Image.fromarray(vis)
-    # pimg.show()
+    # pimg.show(),
 
     showOpenCV(vis)
 
@@ -101,7 +100,6 @@ def make_step(net, end, sigma, step_size=1.5, objective=objective_L2):
 
     src.data[0] = blur(src.data[0], sigma)
 
-###################################################
 
 def deepdream(net, base_img, iter_n=10, end='inception_4e/output', **step_params):
     # reshape and load image
@@ -110,7 +108,7 @@ def deepdream(net, base_img, iter_n=10, end='inception_4e/output', **step_params
     source.reshape(1, 3, h, w)
     source.data[0] = preprocess(net, base_img)
 
-    startSig = 2.5
+    startSig = 1.0
     endSig = 0.1
 
     for i in xrange(iter_n):
@@ -121,4 +119,4 @@ def deepdream(net, base_img, iter_n=10, end='inception_4e/output', **step_params
         vis = deprocess(net, source.data[0])
         saveResult(net, i, end, vis)
 
-    showResult(net, vis)
+    showResult(vis)
