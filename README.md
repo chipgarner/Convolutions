@@ -19,6 +19,8 @@ Dependencies:
   
   PIL
   
+  cv2 and openCV
+  
   It's easiest to build all this on Ubuntu 14.04
   
   
