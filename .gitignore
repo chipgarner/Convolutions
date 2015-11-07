@@ -7,3 +7,5 @@ diana/
 *.jpg
 *.mp4
 !youandme.jpg
+!ym.jpg
+!diana.jpg
