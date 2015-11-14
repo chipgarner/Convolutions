@@ -1,8 +1,24 @@
-import convolver as co
+import numpy as np
+import convolver
+import setup_caffe_network as su
+import models as ml
 
-co.use_gpu()
-net = co.load_model()
-img = co.load_image('ImagesIn/dianaFits.jpg')
 
-ending = 'inception_5b/output'
-co.deepdream(net, img, iter_n = 30, end = ending)
+su.SetupCaffe.gpu_on()
+co = convolver.Convolver(ml.NetModels.setup_googlenet_model())
+
+
+layers = [
+    {
+        'layer':'inception_3a/output',
+        'iter_n': 5,
+        'start_sigma':0.3,
+        'end_sigma':0.0,
+        'start_step_size':6,
+        'end_step_size':3
+    },
+
+]
+
+
+co.deepmod('ImagesIn/youandme.jpg', layers)

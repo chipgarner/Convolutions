@@ -1,4 +1,5 @@
 #This overwrites everything in the frames directory, rename it if you want to save the images.
+#THIS DOESN'T WORK
 import convolver as co
 
 co.use_gpu()
