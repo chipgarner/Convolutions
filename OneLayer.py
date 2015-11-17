@@ -1,4 +1,3 @@
-import numpy as np
 import convolver
 import setup_caffe_network as su
 import models as ml
