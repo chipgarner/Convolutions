@@ -3,18 +3,7 @@ from unittest import TestCase
 import numpy as np
 import convolver
 import setup_caffe_network as su
-
-
-def setup_model():
-
-    prototxt_path   = 'models/bvlc_googlenet/deploy.prototxt'
-    caffemodel_path = 'models/bvlc_googlenet/bvlc_googlenet.caffemodel'  # this model comes with caffe
-    pixel_mean = np.float32([104.0, 116.0, 122.0])  # ImageNet mean, training set dependent
-    height = 224
-    width = 224
-
-    caff = su.SetupCaffe(prototxt_path, caffemodel_path, pixel_mean, height, width)
-    return caff.get_network()
+import models as ml
 
 
 layers = [
@@ -34,7 +23,7 @@ layers = [
 class TestConvolver(TestCase):
     def test_deepmod(self):
         su.SetupCaffe.gpu_on()
-        net = setup_model()
+        net = ml.NetModels.setup_googlenet_model('')
         co = convolver.Convolver(net)
         vis = co.deepmod('ImagesIn/soft-grey.jpg', layers)
         assert vis.shape == (94, 94, 3)
