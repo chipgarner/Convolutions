@@ -18,5 +18,5 @@ layers = [
 
 
 su.SetupCaffe.gpu_on()
-co = convolver.Convolver(ml.NetModels.setup_places_model(''))
+co = convolver.Convolver(ml.NetModels.setup_places_model('../CommonCaffe/TrainedModels/'))
 co.deepmod('ImagesIn/youandme.jpg', layers)

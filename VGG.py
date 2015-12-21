@@ -4,7 +4,7 @@ import models as ml
 
 
 su.SetupCaffe.gpu_on()
-co = convolver.Convolver(ml.NetModels.setup_vgg('../PycharmProjects/ImageFromClass/'))
+co = convolver.Convolver(ml.NetModels.setup_vgg('../CommonCaffe/TrainedModels/'))
 
 
 layers = [

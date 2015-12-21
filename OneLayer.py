@@ -5,8 +5,8 @@ import models as ml
 
 layers = [
     {
-        'layer': 'inception_3a/output',
-        'iter_n': 5,
+        'layer': 'inception_5b/output',
+        'iter_n': 20,
         'start_sigma': 0.3,
         'end_sigma': 0.0,
         'start_step_size': 6,
@@ -17,5 +17,5 @@ layers = [
 
 
 su.SetupCaffe.gpu_on()
-co = convolver.Convolver(ml.NetModels.setup_googlenet_model(''))
-co.deepmod('ImagesIn/1920x1080.jpg', layers)
+co = convolver.Convolver(ml.NetModels.setup_googlenet_model('models/'))
+co.deepmod('ImagesIn/vg.bmp', layers)

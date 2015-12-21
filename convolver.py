@@ -3,6 +3,7 @@ import PIL.Image
 import numpy as np
 import scipy.ndimage as nd
 import display
+import cv2
 
 
 class Convolver:
@@ -14,6 +15,7 @@ class Convolver:
         img = np.float32(PIL.Image.open(image_relative_path))
         self.source = self.net.blobs['data']
         h, w, c = img.shape[:]
+        print str(c)
         self.source.reshape(1, 3, h, w)
         self.source.data[0] = self.__preprocess(img)
         return img
@@ -38,6 +40,10 @@ class Convolver:
         print f
 
     def __blur(self, img, sigma):
+        # vis = self.__deprocess(img)
+        # cv2.
+        # vis = cv2.bilateralFilter(vis,  40, 20, 6) # Really slow!
+        # img = self.__preprocess(vis)
         if sigma > 0:
             img[0] = nd.filters.gaussian_filter(img[0], sigma, order=0)
             img[1] = nd.filters.gaussian_filter(img[1], sigma, order=0)
@@ -65,6 +71,7 @@ class Convolver:
 
     def __visualize(self):
         vis = self.__deprocess(self.source.data[0])
+        # vis = cv2.bilateralFilter(vis,  20, 50, 4)
         # adjust image contrast and clip
         vis = vis * (255.0 / np.percentile(vis, 99.98))
         vis = np.uint8(np.clip(vis, 0, 255))
@@ -85,7 +92,8 @@ class Convolver:
 
                 vis = self.__visualize()
                 self.__save_result(i, image_path, end_layer, vis)
-
+                #vis = cv2.bilateralFilter(vis,  20, 50, 4)
+                #Above works, feed it back into the network
             display.Display().showResultPIL(vis)
+            #display.Display().showResultCV(vis)
             return vis
-            # display.Display().showResultCV(vis)

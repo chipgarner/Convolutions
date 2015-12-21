@@ -23,7 +23,7 @@ layers = [
 class TestConvolver(TestCase):
     def test_deepmod(self):
         su.SetupCaffe.gpu_on()
-        net = ml.NetModels.setup_googlenet_model('')
+        net = ml.NetModels.setup_googlenet_model('models/')
         co = convolver.Convolver(net)
         vis = co.deepmod('ImagesIn/soft-grey.jpg', layers)
         assert vis.shape == (94, 94, 3)
@@ -32,5 +32,5 @@ class TestConvolver(TestCase):
         assert np.array_equal(vis[76, 89], [188, 193, 194])
 
         test_vis = np.load('test/test_vis.npy')
-        assert np.array_equal(vis, test_vis)
+        assert np.allclose(vis, test_vis, 0.01)
 
