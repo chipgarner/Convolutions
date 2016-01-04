@@ -1,5 +1,6 @@
 import convolver
-import setup_caffe_network as su
+import sys
+sys.path.insert(0, '/dev/projects/CommonCaffe')
 import models as ml
 
 
@@ -16,6 +17,5 @@ layers = [
 ]
 
 
-su.SetupCaffe.gpu_on()
 co = convolver.Convolver(ml.NetModels.setup_googlenet_model('models/'))
 co.deepmod('ImagesIn/vg.bmp', layers)

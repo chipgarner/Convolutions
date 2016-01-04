@@ -1,9 +1,7 @@
 import convolver
-import setup_caffe_network as su
 import models as ml
 
 
-su.SetupCaffe.gpu_on()
 co = convolver.Convolver(ml.NetModels.setup_vgg('../CommonCaffe/TrainedModels/'))
 
 

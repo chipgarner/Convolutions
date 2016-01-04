@@ -1,6 +1,4 @@
-import numpy as np
 import convolver
-import setup_caffe_network as su
 import models as ml
 
 
@@ -17,6 +15,5 @@ layers = [
 ]
 
 
-su.SetupCaffe.gpu_on()
 co = convolver.Convolver(ml.NetModels.setup_places_model('../CommonCaffe/TrainedModels/'))
 co.deepmod('ImagesIn/youandme.jpg', layers)

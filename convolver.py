@@ -1,7 +1,8 @@
 # imports
-import PIL.Image
 import numpy as np
 import scipy.ndimage as nd
+import sys
+sys.path.insert(0, '/dev/projects/CommonCaffe')
 import display
 import cv2
 
@@ -12,7 +13,7 @@ class Convolver:
 
     # reshape and load image
     def __load_image(self, image_relative_path):
-        img = np.float32(PIL.Image.open(image_relative_path))
+        img = cv2.imread(image_relative_path)  # np.float32(PIL.Image.open(image_relative_path))
         self.source = self.net.blobs['data']
         h, w, c = img.shape[:]
         print str(c)
@@ -28,7 +29,7 @@ class Convolver:
         return np.dstack((img + self.net.transformer.mean['data'])[::-1])
 
     def __save_result(self, index, image_path, end, vis):
-        pimg = PIL.Image.fromarray(vis)
+        # pimg = PIL.Image.fromarray(vis)
 
         # get the image name from the path
         txt = image_path.split('/')
@@ -36,7 +37,7 @@ class Convolver:
         name = nm[0]
 
         f = "frames/" + str(index) + '_' + name + '_' + end.replace('/', '-') + ".jpg"
-        pimg.save(f, 'jpeg')
+        # pimg.save(f, 'jpeg')
         print f
 
     def __blur(self, img, sigma):
@@ -92,8 +93,8 @@ class Convolver:
 
                 vis = self.__visualize()
                 self.__save_result(i, image_path, end_layer, vis)
-                #vis = cv2.bilateralFilter(vis,  20, 50, 4)
-                #Above works, feed it back into the network
-            display.Display().showResultPIL(vis)
-            #display.Display().showResultCV(vis)
+                # vis = cv2.bilateralFilter(vis,  20, 50, 4)
+                # Above works, feed it back into the network
+            display.Display().showResultCV(vis)
+            # display.Display().showResultCV(vis)
             return vis
